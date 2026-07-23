@@ -63,6 +63,32 @@ body {
   box-shadow: 0 0 10px #7df9ff33;
 }
 
+#searchBox{
+    margin-top:10px;
+    pointer-events:all;
+}
+
+#searchInput{
+    width:240px;
+    padding:10px 14px;
+    background:#0b0f18;
+    border:1px solid #2d6cff;
+    color:white;
+    outline:none;
+    border-radius:8px;
+    font-size:13px;
+    transition:.25s;
+}
+
+#searchInput:focus{
+    border-color:#7df9ff;
+    box-shadow:0 0 15px #7df9ff55;
+}
+
+#searchInput::placeholder{
+    color:#888;
+}
+
 .filter-row {
   margin-top: 7px;
   display: flex;
@@ -197,6 +223,8 @@ body {
     <button class="fbtn" data-cat="actinide">Actinide</button>
   </div>
   <div id="hint">drag to rotate · scroll to zoom · click element</div>
+  <div id="searchBox">
+  <input id="searchInput" type="text" placeholder="🔍 Search Element..." autocomplete="off">
 </div>
 
 <canvas id="canvas3d"></canvas>
@@ -747,6 +775,51 @@ document.getElementById('close-info').addEventListener('click', e => {
 });
 
 render();
+
+const searchInput=document.getElementById("searchInput");
+
+searchInput.addEventListener("keydown",function(e){
+
+    if(e.key!="Enter") return;
+
+    let value=this.value.trim().toLowerCase();
+
+    if(value=="") return;
+
+    let index=ELEMENTS.findIndex(el=>
+
+        el.name.toLowerCase()==value ||
+
+        el.s.toLowerCase()==value ||
+
+        String(el.n)==value
+
+    );
+
+    if(index==-1){
+
+        alert("Element not found");
+
+        return;
+
+    }
+
+    focusElement(index);
+
+});
+   function focusElement(index){
+
+    let p=currentPositions[index];
+
+    targetRotY=Math.atan2(p.x,p.z)*180/Math.PI;
+
+    targetRotX=-15;
+
+    targetZoom=1.8;
+
+    showInfo(ELEMENTS[index]);
+
+   }
 </script>
 </body>
 </html>
