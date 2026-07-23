@@ -523,6 +523,9 @@ let activeFilter = 'all';
 
 // Hover
 let hoveredIdx = -1;
+let selectedIdx = -1;
+
+let floatTime = 0;
 let mouseX = -9999, mouseY = -9999;
 
 // ─── MATH HELPERS ─────────────────────────────────────────
@@ -563,7 +566,13 @@ function lerpPos(a, b, t) {
 // ─── DRAW ─────────────────────────────────────────────────
 function drawCard(el, pos, proj, isHovered, isFiltered) {
   const { px, py, scale } = proj;
-  const s = scale * 52;
+  let s = scale * 52;
+
+if(i===selectedIdx){
+
+    s*=1.18;
+
+}
   const hs = s / 2;
   const color = CAT_COLORS[el.cat] || '#888';
   const bg = CAT_BG[el.cat] || '#111';
